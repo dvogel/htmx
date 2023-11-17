@@ -2469,7 +2469,13 @@ return (function () {
                 }
             }
             if (matches(elt, 'form')) {
-                var inputs = elt.elements;
+                var data = new FormData(elt);
+                var inputs = [];
+                for (var inp of elt.querySelectorAll('*[name]')) {
+                  if (data.has(getRawAttribute(inp, "name"))) {
+                    inputs.push(inp);
+                  }
+                }
                 forEach(inputs, function(input) {
                     processInputValue(processed, values, errors, input, validate);
                 });
